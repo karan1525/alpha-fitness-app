@@ -1,10 +1,17 @@
 package io.github.karan.alphafitness;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -21,18 +28,21 @@ import java.util.List;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    final int REQUEST_CODE = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        setUpMapIfNeeded();
+        SupportMapFragment mFrag = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
+        mFrag.getMapAsync(this);
+//        setUpMapIfNeeded();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        setUpMapIfNeeded();
+//        setUpMapIfNeeded();
     }
 
 
@@ -86,24 +96,50 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
             // Try to obtain the map from the SupportMapFragment.
-            SupportMapFragment mFrag = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
-            mFrag.getMapAsync(this);
+//            SupportMapFragment mFrag = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
+//            mFrag.getMapAsync(this);
             // Check if we were successful in obtaining the map.
-            if (mMap != null) {
-                setUpMap();
-            }
+//            if (mMap != null) {
+//                setUpMap();
+//            }
         }
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.v("Test", "OnMapReadyCalled");
         mMap = googleMap;
-        setUpMap();
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE);
+
+        if (((ContextCompat.checkSelfPermission(getApplicationContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)) ||
+                ContextCompat.checkSelfPermission(getApplicationContext(),
+                        Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+            mMap.setMyLocationEnabled(true);
+
+        }
+
+        LocationManager locManager = (LocationManager) getApplicationContext().getSystemService(
+                Context.LOCATION_SERVICE
+        );
+        Location l = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (l == null) {
+            Log.v("Test", "Location is null");
+        } else {
+            Log.v("Test", "Latitude: " + l.getLatitude());
+            Log.v("Test", "Longitude: " + l.getLatitude());
+            LatLng curr = new LatLng(l.getLatitude(), l.getLongitude());
+            googleMap.addMarker(new MarkerOptions().position(curr).title("Marker in current location"));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(curr));
+        }
+ //        setUpMap();
     }
 
-    private void setUpMap() {
-        mMap.setMyLocationEnabled(true); //check for permission first
-    }
+//    private void setUpMap() {
+//        mMap.setMyLocationEnabled(true); //check for permission first
+//    }
 
     @Override
     public void onBackPressed() {
