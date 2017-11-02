@@ -67,8 +67,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:clickable="false"
             android:contentDescription="@string/profile_screen"
-            android:src="@mipmap/ic_launcher" />
+            android:onClick="openProfileScreen"
+            android:src="@drawable/profile_picture" />
     </LinearLayout>
 
     <LinearLayout

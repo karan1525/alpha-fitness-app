@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -88,5 +89,11 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                     new LatLng(l.getLatitude(), l.getLongitude()), 16));
         }
+    }
+
+    public void openProfileScreen(View view) {
+        Intent intent = new Intent(this, Fitness_ProfileScreen.class);
+        startActivity(intent);
+        finish();
     }
 }

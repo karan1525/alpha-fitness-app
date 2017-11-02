@@ -51,7 +51,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Fitness_DetailsScreen"></activity>
+        <activity android:name=".Fitness_DetailsScreen" />
+        <activity android:name=".Fitness_ProfileScreen"></activity>
     </application>
 
 </manifest>
