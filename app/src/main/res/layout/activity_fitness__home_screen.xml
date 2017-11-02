@@ -68,7 +68,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:contentDescription="@string/profile_screen"
-            app:srcCompat="@drawable/common_google_signin_btn_icon_light_normal" />
+            android:src="@mipmap/ic_launcher" />
     </LinearLayout>
 
     <LinearLayout
@@ -148,7 +148,5 @@
             android:text="@string/start_workout" />
 
     </android.support.v7.widget.Toolbar>
-
-
 
 </android.support.constraint.ConstraintLayout>
