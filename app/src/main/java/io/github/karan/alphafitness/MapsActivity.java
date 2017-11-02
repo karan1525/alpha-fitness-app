@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -124,12 +125,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LocationManager locManager = (LocationManager) getApplicationContext().getSystemService(
                 Context.LOCATION_SERVICE
         );
-        Location l = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location l = locManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         if (l == null) {
             Log.v("Test", "Location is null");
         } else {
             Log.v("Test", "Latitude: " + l.getLatitude());
-            Log.v("Test", "Longitude: " + l.getLatitude());
+            Log.v("Test", "Longitude: " + l.getLongitude());
             LatLng curr = new LatLng(l.getLatitude(), l.getLongitude());
             googleMap.addMarker(new MarkerOptions().position(curr).title("Marker in current location"));
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(curr));
