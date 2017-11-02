@@ -123,7 +123,7 @@
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="420dp"
             android:layout_height="350dp"
-            tools:context="io.github.karan.alphafitness.MapsActivity" />
+            tools:context="io.github.karan.alphafitness.Fitness_HomeScreen" />
     </FrameLayout>
 
     <android.support.v7.widget.Toolbar

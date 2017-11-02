@@ -1,7 +1,9 @@
 package io.github.karan.alphafitness;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -34,6 +36,14 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
                 ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             SupportMapFragment mFrag = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
             mFrag.getMapAsync(this);
+        }
+
+        Configuration configuration = getResources().getConfiguration();
+
+        if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Intent intent = new Intent(this, Fitness_DetailsScreen.class);
+            startActivity(intent);
+            finish();
         }
     }
 
