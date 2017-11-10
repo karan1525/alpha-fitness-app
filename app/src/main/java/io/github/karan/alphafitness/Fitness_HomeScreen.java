@@ -35,6 +35,8 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
     private Handler mHandler;
     private TextView timeDisplay;
 
+    private TextView distanceTextView;
+
     final String STOP_WORKOUT_STRING = "Stop Workout";
     final String START_WORKOUT_STRING = "Start Workout";
 
@@ -61,6 +63,7 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
         }
 
         timeDisplay = findViewById(R.id.timer_text_view);
+        distanceTextView = findViewById(R.id.actual_distance_textView);
         watchTime = new WatchTime();
         mHandler = new Handler();
     }
