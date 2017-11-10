@@ -7,12 +7,15 @@ import android.content.res.Configuration;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,6 +29,11 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
     private final int REQUEST_CODE = 0;
     private boolean isFirstLaunch = true;
     private boolean firstClickOfWorkoutButton = true;
+
+    private WatchTime watchTime;
+    private long timeInMilliseconds = 0L;
+    private Handler mHandler;
+    private TextView timeDisplay;
 
     final String STOP_WORKOUT_STRING = "Stop Workout";
     final String START_WORKOUT_STRING = "Start Workout";
@@ -51,6 +59,10 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
             startActivity(intent);
             finish();
         }
+
+        timeDisplay = findViewById(R.id.timer_text_view);
+        watchTime = new WatchTime();
+        mHandler = new Handler();
     }
 
     public void onMapReady(GoogleMap googleMap) {
@@ -100,7 +112,6 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
                 isFirstLaunch = false;
                 googleMap.moveCamera(CameraUpdateFactory.newLatLng(
                         new LatLng(l.getLatitude(), l.getLongitude())));
-
             }
         }
     }
@@ -118,9 +129,36 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
         if (firstClickOfWorkoutButton) {
             startStopWorkoutButton.setText(STOP_WORKOUT_STRING);
             firstClickOfWorkoutButton = false;
+
+            watchTime.setStartTime(SystemClock.uptimeMillis());
+            mHandler.postDelayed(updateTimerRunnable, 20);
         } else {
             startStopWorkoutButton.setText(START_WORKOUT_STRING);
             firstClickOfWorkoutButton = true;
+
+            watchTime.addStoredTime(timeInMilliseconds);
+            mHandler.removeCallbacks(updateTimerRunnable);
         }
     }
+
+    private Runnable updateTimerRunnable = new Runnable() {
+        public void run() {
+            timeInMilliseconds = SystemClock.uptimeMillis() - watchTime.getStartTime();
+            watchTime.setTimeUpdate(watchTime.getStoredTime() + timeInMilliseconds);
+
+            int time = (int) (watchTime.getTimeUpdate() / 1000);
+
+            int minutes = time / 60;
+            int seconds = time % 60;
+            int milliseconds = (int) (watchTime.getTimeUpdate() % 1000);
+
+            String timerString = String.format("%02d", minutes) + ":"
+                    + String.format("%02d", seconds) + ":"
+                    + String.format("%02d", milliseconds);
+
+            timeDisplay.setText(timerString);
+
+            mHandler.postDelayed(this, 0);
+        }
+    };
 }
