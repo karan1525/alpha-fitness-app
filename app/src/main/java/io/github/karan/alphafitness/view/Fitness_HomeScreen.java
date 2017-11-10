@@ -4,6 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -26,9 +30,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import io.github.karan.alphafitness.Manifest;
 import io.github.karan.alphafitness.R;
+import io.github.karan.alphafitness.controller.StepListener;
+import io.github.karan.alphafitness.model.StepDetector;
 import io.github.karan.alphafitness.model.WatchTime;
 
-public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCallback {
+public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCallback, SensorEventListener, StepListener {
 
     private final int REQUEST_CODE = 0;
     private boolean isFirstLaunch = true;
@@ -43,6 +49,12 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
 
     final String STOP_WORKOUT_STRING = "Stop Workout";
     final String START_WORKOUT_STRING = "Start Workout";
+
+    private StepDetector simpleStepDetector;
+    private SensorManager sensorManager;
+    private Sensor accelerometer;
+    private static final String TEXT_NUM_STEPS = "Number of steps";
+    private int numSteps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +77,11 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
             startActivity(intent);
             finish();
         }
+
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        simpleStepDetector = new StepDetector();
+        simpleStepDetector.registerListener(this);
 
         timeDisplay = findViewById(R.id.timer_text_view);
         distanceTextView = findViewById(R.id.actual_distance_textView);
@@ -139,9 +156,15 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
 
             watchTime.setStartTime(SystemClock.uptimeMillis());
             mHandler.postDelayed(updateTimerRunnable, 20);
+
+            numSteps = 0;
+            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_FASTEST);
+
         } else {
             startStopWorkoutButton.setText(START_WORKOUT_STRING);
             firstClickOfWorkoutButton = true;
+
+            sensorManager.unregisterListener(this);
 
             watchTime.addStoredTime(timeInMilliseconds);
             mHandler.removeCallbacks(updateTimerRunnable);
@@ -168,4 +191,25 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
             mHandler.postDelayed(this, 0);
         }
     };
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            simpleStepDetector.updateAccel(
+                    event.timestamp, event.values[0], event.values[1], event.values[2]
+            );
+        }
+    }
+
+    @Override
+    public void step(long timeNs) {
+        numSteps++;
+        String stringToSet = TEXT_NUM_STEPS + numSteps;
+        distanceTextView.setText(stringToSet);
+    }
 }
