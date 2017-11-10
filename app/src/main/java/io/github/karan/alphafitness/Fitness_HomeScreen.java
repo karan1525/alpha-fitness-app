@@ -13,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -24,7 +25,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCallback {
 
     private final int REQUEST_CODE = 0;
+    private final String STOP_WORKOUT_STRING = "Stop Workout";
+    private final String START_WORKOUT_STRING = "Start Workout";
     private boolean isFirstLaunch = true;
+    private boolean firstClickOfWorkoutButton = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,5 +115,19 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
         Intent intent = new Intent(this, Fitness_ProfileScreen.class);
         startActivity(intent);
         finish();
+    }
+
+    public void startStopWorkoutButtonOperations(View view) {
+
+        Button startStopWorkoutButton = findViewById(R.id.start_workout_button);
+
+        if (firstClickOfWorkoutButton) {
+            startStopWorkoutButton.setText(STOP_WORKOUT_STRING);
+            firstClickOfWorkoutButton = false;
+        } else if (!firstClickOfWorkoutButton) {
+            startStopWorkoutButton.setText(START_WORKOUT_STRING);
+            firstClickOfWorkoutButton = true;
+        }
+
     }
 }

@@ -142,12 +142,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_bias="1.0">
 
+        <LinearLayout
+            android:id="@+id/main_toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
         <Button
             android:id="@+id/start_workout_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="145dp"
-            android:text="@string/start_workout" />
+            android:onClick="startStopWorkoutButtonOperations"
+            android:text="@string/start_workout"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="4dp" />
+
+        </LinearLayout>
 
     </android.support.v7.widget.Toolbar>
 
