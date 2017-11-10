@@ -40,7 +40,7 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
     private boolean isFirstLaunch = true;
     private boolean firstClickOfWorkoutButton = true;
 
-    final int STEPS_IN_A_MILE = 10;
+    final int STEPS_IN_A_MILE = 2000;
 
     private WatchTime watchTime;
     private long timeInMilliseconds = 0L;
@@ -55,7 +55,6 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
     private StepDetector simpleStepDetector;
     private SensorManager sensorManager;
     private Sensor accelerometer;
-    private static final String TEXT_NUM_STEPS = "Number of steps";
     private int numSteps;
 
     @Override
@@ -87,7 +86,6 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
 
         timeDisplay = findViewById(R.id.timer_text_view);
         distanceTextView = findViewById(R.id.actual_distance_textView);
-        distanceTextView.setText("0.0");
         watchTime = new WatchTime();
         mHandler = new Handler();
     }
@@ -161,6 +159,8 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
             mHandler.postDelayed(updateTimerRunnable, 20);
 
             numSteps = 0;
+            distanceTextView.setText(R.string.zeroDistance);
+            timeDisplay.setText(R.string.zeroTime);
             sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_FASTEST);
 
         } else {
