@@ -1,8 +1,10 @@
-package io.github.karan.alphafitness;
+package io.github.karan.alphafitness.view;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import io.github.karan.alphafitness.R;
 
 public class Fitness_ProfileScreen extends AppCompatActivity {
 

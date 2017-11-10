@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="io.github.karan.alphafitness.Fitness_HomeScreen">
+    tools:context="io.github.karan.alphafitness.view.Fitness_HomeScreen">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_top"
@@ -183,7 +183,7 @@
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="420dp"
             android:layout_height="360dp"
-            tools:context="io.github.karan.alphafitness.Fitness_HomeScreen" />
+            tools:context="io.github.karan.alphafitness.view.Fitness_HomeScreen" />
     </FrameLayout>
 
     <android.support.v7.widget.Toolbar

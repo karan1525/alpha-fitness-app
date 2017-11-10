@@ -44,15 +44,15 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".Fitness_HomeScreen">
+        <activity android:name=".view.Fitness_HomeScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Fitness_DetailsScreen" />
-        <activity android:name=".Fitness_ProfileScreen"></activity>
+        <activity android:name=".view.Fitness_DetailsScreen" />
+        <activity android:name=".view.Fitness_ProfileScreen"></activity>
     </application>
 
 </manifest>

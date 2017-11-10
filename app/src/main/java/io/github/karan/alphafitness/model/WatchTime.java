@@ -1,4 +1,4 @@
-package io.github.karan.alphafitness;
+package io.github.karan.alphafitness.model;
 
 /**
  * A class representing the stopwatch class

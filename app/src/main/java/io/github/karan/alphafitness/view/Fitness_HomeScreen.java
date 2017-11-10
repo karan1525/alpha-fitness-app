@@ -1,4 +1,4 @@
-package io.github.karan.alphafitness;
+package io.github.karan.alphafitness.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +23,10 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import io.github.karan.alphafitness.Manifest;
+import io.github.karan.alphafitness.R;
+import io.github.karan.alphafitness.model.WatchTime;
 
 public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCallback {
 

@@ -1,9 +1,11 @@
-package io.github.karan.alphafitness;
+package io.github.karan.alphafitness.view;
 
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+
+import io.github.karan.alphafitness.R;
 
 public class Fitness_DetailsScreen extends FragmentActivity {
 
