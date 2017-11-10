@@ -11,7 +11,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -25,10 +24,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCallback {
 
     private final int REQUEST_CODE = 0;
-    private final String STOP_WORKOUT_STRING = "Stop Workout";
-    private final String START_WORKOUT_STRING = "Start Workout";
     private boolean isFirstLaunch = true;
     private boolean firstClickOfWorkoutButton = true;
+
+    final String STOP_WORKOUT_STRING = "Stop Workout";
+    final String START_WORKOUT_STRING = "Start Workout";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +54,6 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
     }
 
     public void onMapReady(GoogleMap googleMap) {
-        Log.v("Test", "OnMapReadyCalled");
-
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE);
 
@@ -71,10 +69,8 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
         LocationManager locManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
         Location l = locManager != null ? locManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) : null;
+
         if (l == null) {
-
-            Log.v("Test", "Location is null. Switch to Network Provider");
-
             Criteria criteria = new Criteria();
             criteria.setAccuracy(Criteria.ACCURACY_FINE);
             String provider = locManager.getBestProvider(criteria, true);
@@ -93,8 +89,6 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
             }
 
         } else {
-            Log.v("Test", "Latitude: " + l.getLatitude());
-            Log.v("Test", "Longitude: " + l.getLongitude());
 
             if (isFirstLaunch) {
                 isFirstLaunch = false;
@@ -124,7 +118,7 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
         if (firstClickOfWorkoutButton) {
             startStopWorkoutButton.setText(STOP_WORKOUT_STRING);
             firstClickOfWorkoutButton = false;
-        } else if (!firstClickOfWorkoutButton) {
+        } else {
             startStopWorkoutButton.setText(START_WORKOUT_STRING);
             firstClickOfWorkoutButton = true;
         }
