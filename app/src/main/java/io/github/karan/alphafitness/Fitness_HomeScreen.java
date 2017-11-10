@@ -24,6 +24,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCallback {
 
     private final int REQUEST_CODE = 0;
+    private boolean isFirstLaunch = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,19 +76,34 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
             String provider = locManager.getBestProvider(criteria, true);
             l = locManager.getLastKnownLocation(provider);
 
-            googleMap.addMarker(new MarkerOptions().position(
-                    new LatLng(l.getLatitude(), l.getLongitude())).title("Current location"));
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                    new LatLng(l.getLatitude(), l.getLongitude()), 16));
+            if (isFirstLaunch) {
+                isFirstLaunch = false;
+                googleMap.addMarker(new MarkerOptions().position(
+                        new LatLng(l.getLatitude(), l.getLongitude())).title("Current location"));
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                        new LatLng(l.getLatitude(), l.getLongitude()), 16));
+            } else {
+                isFirstLaunch = false;
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(
+                        new LatLng(l.getLatitude(), l.getLongitude())));
+            }
 
         } else {
             Log.v("Test", "Latitude: " + l.getLatitude());
             Log.v("Test", "Longitude: " + l.getLongitude());
 
-            googleMap.addMarker(new MarkerOptions().position(
-                    new LatLng(l.getLatitude(), l.getLongitude())).title("Current location"));
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                    new LatLng(l.getLatitude(), l.getLongitude()), 16));
+            if (isFirstLaunch) {
+                isFirstLaunch = false;
+                googleMap.addMarker(new MarkerOptions().position(
+                        new LatLng(l.getLatitude(), l.getLongitude())).title("Current location"));
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                        new LatLng(l.getLatitude(), l.getLongitude()), 16));
+            } else {
+                isFirstLaunch = false;
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(
+                        new LatLng(l.getLatitude(), l.getLongitude())));
+
+            }
         }
     }
 
