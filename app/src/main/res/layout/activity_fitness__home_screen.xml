@@ -56,7 +56,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Record Workout"
+            android:text="@string/record_workout"
+            android:textSize="35sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -87,23 +88,81 @@
         app:layout_constraintTop_toBottomOf="@+id/top_linear_layout"
         app:layout_constraintVertical_bias="0.005">
 
-        <TextView
-            android:id="@+id/distance_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="108dp"
-            android:layout_weight="0.82"
-            android:gravity="center"
-            android:text="Distance\n 2.6\n KM"
-            android:textSize="28sp" />
+        <LinearLayout
+            android:id="@+id/left_vertical_linear_layout"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/duration_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="92dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Duration\n 0:25:52\n minutes"
-            android:textSize="25sp" />
+            <TextView
+                android:id="@+id/distance_textView"
+                android:layout_width="match_parent"
+                android:layout_height="108dp"
+                android:layout_weight="0.82"
+                android:gravity="top"
+                android:text="@string/distance"
+                android:textAlignment="center"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/actual_distance_textView"
+                android:layout_width="match_parent"
+                android:layout_height="108dp"
+                android:layout_weight="0.82"
+                android:gravity="center"
+                android:text="@string/zeroDistance"
+                android:textAlignment="center"
+                android:textSize="29sp" />
+
+            <TextView
+                android:id="@+id/miles_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="108dp"
+                android:layout_weight="0.82"
+                android:gravity="bottom"
+                android:textAlignment="center"
+                android:text="@string/miles"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/right_vertical_linear_layout"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/duration_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="top"
+                android:text="@string/duration"
+                android:textAlignment="center"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/timer_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/zero_minutes"
+                android:textAlignment="center"
+                android:textSize="29sp" />
+
+            <TextView
+                android:id="@+id/minutes_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:text="@string/minutes"
+                android:textAlignment="center"
+                android:textSize="15sp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -112,7 +171,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/middle_linear_layout"
-        android:layout_marginTop="280dp"
+        android:layout_marginTop="270dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -124,7 +183,7 @@
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="420dp"
-            android:layout_height="350dp"
+            android:layout_height="360dp"
             tools:context="io.github.karan.alphafitness.Fitness_HomeScreen" />
     </FrameLayout>
 

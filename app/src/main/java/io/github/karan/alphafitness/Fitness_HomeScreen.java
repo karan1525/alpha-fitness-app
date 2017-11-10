@@ -122,6 +122,5 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
             startStopWorkoutButton.setText(START_WORKOUT_STRING);
             firstClickOfWorkoutButton = true;
         }
-
     }
 }

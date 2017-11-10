@@ -4,7 +4,14 @@
     <string name="start_workout">Start Workout</string>
     <string name="open_maps">Open Maps</string>
     <string name="profile_screen">Profile Screen</string>
+    <string name="miles">Miles</string>
+    <string name="distance">Distance</string>
+    <string name="zeroDistance">0.0</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="record_workout">Record Workout</string>
+    <string name="duration">Duration</string>
+    <string name="minutes">minutes</string>
+    <string name="zero_minutes">0:00:00</string>
 </resources>
