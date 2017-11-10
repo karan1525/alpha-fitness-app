@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/app_name"
+            android:text="@string/app_name_caps"
             android:textColor="@color/white"
             android:textSize="25sp" />
 
@@ -210,8 +210,9 @@
 
         <Button
             android:id="@+id/start_workout_button"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:background="@color/green"
             android:onClick="startStopWorkoutButtonOperations"
             android:text="@string/start_workout"
             tools:layout_editor_absoluteX="16dp"
