@@ -30,6 +30,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import io.github.karan.alphafitness.Manifest;
 import io.github.karan.alphafitness.R;
+import io.github.karan.alphafitness.controller.MyLocationService;
 import io.github.karan.alphafitness.controller.StepListener;
 import io.github.karan.alphafitness.model.StepDetector;
 import io.github.karan.alphafitness.model.WatchTime;
@@ -83,6 +84,9 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         simpleStepDetector = new StepDetector();
         simpleStepDetector.registerListener(this);
+
+        Intent i = new Intent(this, MyLocationService.class);
+        this.startService(i);
 
         timeDisplay = findViewById(R.id.timer_text_view);
         distanceTextView = findViewById(R.id.actual_distance_textView);
