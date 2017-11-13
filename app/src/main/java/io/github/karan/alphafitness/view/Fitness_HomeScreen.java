@@ -22,7 +22,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -179,6 +178,7 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
             distanceTextView.setText(R.string.zeroDistance);
             timeDisplay.setText(R.string.zeroTime);
             sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_FASTEST);
+            mHandler.postDelayed(locationChangedRunnable, 20);
 
         } else {
             startStopWorkoutButton.setText(START_WORKOUT_STRING);
@@ -188,6 +188,7 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
 
             watchTime.addStoredTime(timeInMilliseconds);
             mHandler.removeCallbacks(updateTimerRunnable);
+            mHandler.removeCallbacks(locationChangedRunnable);
         }
     }
 
@@ -207,6 +208,44 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
                     + String.format("%02d", milliseconds);
 
             timeDisplay.setText(timerString);
+
+            mHandler.postDelayed(this, 0);
+        }
+    };
+
+    private Runnable locationChangedRunnable = new Runnable() {
+        public void run() {
+            LocationListener locationListenerGPS = new LocationListener() {
+                @Override
+                public void onLocationChanged(android.location.Location location) {
+                    double latitude=location.getLatitude();
+                    double longitude=location.getLongitude();
+
+                    mLocationList.add(new LatLng(latitude, longitude));
+
+                    PolylineOptions options = new PolylineOptions().width(5).color(Color.BLUE).geodesic(true);
+                    for (int z = 0; z < mLocationList.size(); z++) {
+                        LatLng point = mLocationList.get(z);
+                        options.add(point);
+                    }
+                    mMap.addPolyline(options);
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+
+                }
+            };
 
             mHandler.postDelayed(this, 0);
         }
