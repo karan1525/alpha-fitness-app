@@ -6,7 +6,7 @@
     <string name="open_maps">Open Maps</string>
     <string name="profile_screen">Profile Screen</string>
     <string name="miles">Miles</string>
-    <string name="zeroDistance">0.0</string>
+    <string name="zeroDistance">0.000</string>
     <string name="johnDoe">John Doe</string>
 
     <!-- TODO: Remove or change this placeholder text -->
