@@ -15,6 +15,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
@@ -45,8 +47,6 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
     private boolean isFirstLaunch = true;
     private boolean firstClickOfWorkoutButton = true;
 
-    final int STEPS_IN_A_MILE = 2000;
-
     private WatchTime watchTime;
     private long timeInMilliseconds = 0L;
     private Handler mHandler;
@@ -54,14 +54,13 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
 
     private TextView distanceTextView;
 
-    final String STOP_WORKOUT_STRING = "Stop Workout";
-    final String START_WORKOUT_STRING = "Start Workout";
-
     private StepDetector simpleStepDetector;
+    @Nullable
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private int numSteps;
 
+    @Nullable
     LocationManager mLocationManager;
     Context mContext;
     private GoogleMap mMap;
@@ -105,7 +104,7 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
         mHandler = new Handler();
     }
 
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE);
@@ -168,6 +167,7 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
         Button startStopWorkoutButton = findViewById(R.id.start_workout_button);
 
         if (firstClickOfWorkoutButton) {
+            String STOP_WORKOUT_STRING = "Stop Workout";
             startStopWorkoutButton.setText(STOP_WORKOUT_STRING);
             firstClickOfWorkoutButton = false;
 
@@ -181,6 +181,7 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
             mHandler.postDelayed(locationChangedRunnable, 20);
 
         } else {
+            String START_WORKOUT_STRING = "Start Workout";
             startStopWorkoutButton.setText(START_WORKOUT_STRING);
             firstClickOfWorkoutButton = true;
 
@@ -192,6 +193,7 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
         }
     }
 
+    @NonNull
     private Runnable updateTimerRunnable = new Runnable() {
         public void run() {
             timeInMilliseconds = SystemClock.uptimeMillis() - watchTime.getStartTime();
@@ -213,11 +215,12 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
         }
     };
 
+    @NonNull
     private Runnable locationChangedRunnable = new Runnable() {
         public void run() {
             LocationListener locationListenerGPS = new LocationListener() {
                 @Override
-                public void onLocationChanged(android.location.Location location) {
+                public void onLocationChanged(@NonNull android.location.Location location) {
                     double latitude=location.getLatitude();
                     double longitude=location.getLongitude();
 
@@ -257,7 +260,7 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
     }
 
     @Override
-    public void onSensorChanged(SensorEvent event) {
+    public void onSensorChanged(@NonNull SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             simpleStepDetector.updateAccel(
                     event.timestamp, event.values[0], event.values[1], event.values[2]
@@ -268,13 +271,15 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
     @Override
     public void step(long timeNs) {
         numSteps++;
-        String stringToSet = String.valueOf((float)numSteps / STEPS_IN_A_MILE);
+        int STEPS_IN_A_MILE = 2000;
+        String stringToSet = String.valueOf( (float) numSteps / STEPS_IN_A_MILE);
         distanceTextView.setText(stringToSet);
     }
 
+    @NonNull
     LocationListener locationListenerGPS = new LocationListener() {
         @Override
-        public void onLocationChanged(android.location.Location location) {
+        public void onLocationChanged(@NonNull android.location.Location location) {
             double latitude=location.getLatitude();
             double longitude=location.getLongitude();
 
