@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -20,6 +22,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -27,15 +30,17 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
+
+import java.util.ArrayList;
 
 import io.github.karan.alphafitness.Manifest;
 import io.github.karan.alphafitness.R;
-import io.github.karan.alphafitness.controller.MyLocationService;
 import io.github.karan.alphafitness.controller.StepListener;
 import io.github.karan.alphafitness.model.StepDetector;
 import io.github.karan.alphafitness.model.WatchTime;
 
-public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCallback, SensorEventListener, StepListener {
+public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCallback, SensorEventListener, StepListener{
 
     private final int REQUEST_CODE = 0;
     private boolean isFirstLaunch = true;
@@ -58,6 +63,11 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
     private Sensor accelerometer;
     private int numSteps;
 
+    LocationManager mLocationManager;
+    Context mContext;
+    private GoogleMap mMap;
+    private ArrayList<LatLng> mLocationList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +82,11 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
             mFrag.getMapAsync(this);
         }
 
+        mContext = this;
+        mLocationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 10, locationListenerGPS);
+        mLocationList = new ArrayList<LatLng>();
+
         Configuration configuration = getResources().getConfiguration();
 
         if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -85,9 +100,6 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
         simpleStepDetector = new StepDetector();
         simpleStepDetector.registerListener(this);
 
-        Intent i = new Intent(this, MyLocationService.class);
-        this.startService(i);
-
         timeDisplay = findViewById(R.id.timer_text_view);
         distanceTextView = findViewById(R.id.actual_distance_textView);
         watchTime = new WatchTime();
@@ -95,6 +107,7 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
     }
 
     public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE);
 
@@ -103,7 +116,7 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
                 ContextCompat.checkSelfPermission(this,
                         Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-            googleMap.setMyLocationEnabled(true);
+            mMap.setMyLocationEnabled(true);
 
         }
 
@@ -219,4 +232,36 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
         String stringToSet = String.valueOf((float)numSteps / STEPS_IN_A_MILE);
         distanceTextView.setText(stringToSet);
     }
+
+    LocationListener locationListenerGPS = new LocationListener() {
+        @Override
+        public void onLocationChanged(android.location.Location location) {
+            double latitude=location.getLatitude();
+            double longitude=location.getLongitude();
+
+            mLocationList.add(new LatLng(latitude, longitude));
+
+            PolylineOptions options = new PolylineOptions().width(5).color(Color.BLUE).geodesic(true);
+            for (int z = 0; z < mLocationList.size(); z++) {
+                LatLng point = mLocationList.get(z);
+                options.add(point);
+            }
+            mMap.addPolyline(options);
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+    };
 }

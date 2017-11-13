@@ -51,8 +51,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".controller.MyLocationService" android:process=":my_service" />
-        <service android:name=".controller.MyStepService" android:process=":my_service" />
         <activity android:name=".view.Fitness_DetailsScreen" />
         <activity android:name=".view.Fitness_ProfileScreen"/>
     </application>
