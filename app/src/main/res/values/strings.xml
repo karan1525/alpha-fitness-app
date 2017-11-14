@@ -26,4 +26,8 @@
     <string name="calories_burned">Calories Burned</string>
     <string name="all_time">All Time</string>
     <string name="zeroTime">00:00:000</string>
+    <string name="workout_details">Workout Details</string>
+    <string name="average">Average:</string>
+    <string name="max">Max:</string>
+    <string name="min">Min:</string>
 </resources>
