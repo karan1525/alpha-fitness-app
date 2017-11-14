@@ -49,15 +49,15 @@
         app:layout_constraintVertical_bias="0.0">
 
         <TextView
-            android:layout_width="230dp"
+            android:layout_width="250dp"
             android:layout_height="match_parent"
             android:text="@string/workout_details"
             android:gravity="center"
             android:textStyle="bold"
-            android:textSize="25sp"/>
+            android:textSize="35sp"/>
 
         <TextView
-            android:layout_width="225dp"
+            android:layout_width="230dp"
             android:layout_height="match_parent"
             android:text="@string/average"
             android:gravity="start|center"
@@ -71,7 +71,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="227dp"
+                android:layout_width="230dp"
                 android:layout_height="35dp"
                 android:text="@string/max"
                 android:gravity="start"
@@ -79,7 +79,7 @@
                 android:background="@color/gray"/>
 
             <TextView
-                android:layout_width="227dp"
+                android:layout_width="230dp"
                 android:layout_height="35dp"
                 android:text="@string/min"
                 android:gravity="start|center"
