@@ -58,7 +58,7 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
     @Nullable
     private SensorManager sensorManager;
     private Sensor accelerometer;
-    private int numSteps;
+    private int numSteps; 
 
     @Nullable
     LocationManager mLocationManager;
