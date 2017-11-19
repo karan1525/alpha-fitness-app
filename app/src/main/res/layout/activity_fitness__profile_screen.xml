@@ -58,11 +58,12 @@
             android:src="@drawable/profile_picture" />
 
         <EditText
-            android:id="@+id/user_name_textView"
+            android:id="@+id/user_name_textEdit"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="start|center"
+            android:inputType="textCapWords"
+            android:gravity="center"
             android:hint="@string/johnDoe"
             android:textSize="31sp"
             app:layout_constraintBottom_toBottomOf="parent"

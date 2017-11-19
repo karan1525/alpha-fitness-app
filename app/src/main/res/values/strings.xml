@@ -30,4 +30,7 @@
     <string name="average">Average:</string>
     <string name="max">Max:</string>
     <string name="min">Min:</string>
+    <string name="user_name">Rebecca</string>
+    <string name="user_gender">Female</string>
+    <string name="user_weight">130.0</string>
 </resources>

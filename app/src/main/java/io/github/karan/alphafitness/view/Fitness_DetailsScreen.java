@@ -33,6 +33,10 @@ public class Fitness_DetailsScreen extends FragmentActivity {
             finish();
         }
 
+        chartTest();
+    }
+
+    private void chartTest() {
         LineChart chart = findViewById(R.id.chart);
         int count = 45;
         int range = 100;
@@ -65,9 +69,6 @@ public class Fitness_DetailsScreen extends FragmentActivity {
                 return -10;
             }
         });
-
-//        dataSet.setColor(Color.rgb(255, 150, 101));
-//        dataSet.setValueTextColor(Color.rgb(255,255,255));
 
         LineData lineData = new LineData(dataSet);
         lineData.setValueTextSize(9f);
