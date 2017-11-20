@@ -82,6 +82,8 @@ public class UsersDBOperations {
             cursor.moveToFirst();
         }
 
+        cursor.close();
+
         return null;
 //        return new User(Long.parseLong(cursor.getString(0)),
 //                cursor.getString(1),
@@ -103,10 +105,15 @@ public class UsersDBOperations {
         Log.d(LOGTAG,cursor.getString(2));
         Log.d(LOGTAG,cursor.getString(3));
 
-        return new User(Long.parseLong(cursor.getString(0)),
+
+         User user = new User(Long.parseLong(cursor.getString(0)),
                 cursor.getString(1),
                 cursor.getString(2),
                 Float.parseFloat(cursor.getString(3)));
+
+         cursor.close();
+
+        return user;
     }
 
     public int updateUser(User user) {

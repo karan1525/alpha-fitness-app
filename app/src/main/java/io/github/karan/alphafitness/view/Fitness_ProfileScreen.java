@@ -21,7 +21,7 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
     private Spinner genderSpinner;
     private EditText weightEditText;
     private User newUser;
-    private long userId;
+    private User mSavedUser;
     private UsersDBOperations mUserOps;
     private static boolean mIsFirstRun = true;
 
@@ -37,6 +37,8 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
         weightEditText = findViewById(R.id.weight_edit_text);
         mUserOps = new UsersDBOperations(this);
         mUserOps.open();
+
+        mSavedUser = mUserOps.getUser(1);
 
         //hardcoded.. Stop recording and then uncomment this
         if (!mIsFirstRun) {
@@ -58,16 +60,7 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
     }
 
     private void checkIfUserExists() {
-//        nameEditText.setText(R.string.user_name);
-//        String gender = getString(R.string.user_gender);
-//        if (gender.equalsIgnoreCase("Male")) {
-//            genderSpinner.setSelection(0);
-//        } else {
-//            genderSpinner.setSelection(1);
-//        }
-//        weightEditText.setText(R.string.user_weight);
-
-        User myCurrentUser = mUserOps.getUser(newUser.getmId());
+        User myCurrentUser = mUserOps.getUser(1);
         nameEditText.setText(myCurrentUser.getmName());
         String gender = myCurrentUser.getmGender();
         if (gender.equalsIgnoreCase("Male")) {
@@ -89,7 +82,13 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
         if (!weightEditText.getText().toString().isEmpty()) {
             newUser.setmWeight(Float.parseFloat(weightEditText.getText().toString()));
         }
-        newUser = mUserOps.addUser(newUser);
+
+        if(!mSavedUser.getmName().equalsIgnoreCase(newUser.getmName())) {
+            mSavedUser = mUserOps.addUser(newUser);
+        } else {
+            TastyToast.makeText(this, "User " + newUser.getmName() + " was not added. Try again",
+                    TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
+        }
 
         if (!nameEditText.getText().toString().isEmpty()) {
             TastyToast.makeText(this, "User " + newUser.getmName() + " has been added successfully",
