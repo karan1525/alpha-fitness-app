@@ -16,7 +16,7 @@ import io.github.karan.alphafitness.model.User;
 
 public class UsersDBOperations {
 
-    public static final String LOGTAG = "USER_MNGMNT_SYS";
+    static final String LOGTAG = "USER_MNGMNT_SYS";
 
     private SQLiteOpenHelper dbhandler;
     private SQLiteDatabase database;
@@ -29,6 +29,7 @@ public class UsersDBOperations {
     };
 
     private static final String[] allUserDataColumns = {
+            UserDBHandler.COLUMN_ID,
             UserDBHandler.COLUMN_TIME,
             UserDBHandler.COLUMN_DISTANCE_WEEKLY,
             UserDBHandler.COLUMN_TIME_WEEKLY,
@@ -58,6 +59,34 @@ public class UsersDBOperations {
         long insertId = database.insert(UserDBHandler.TABLE_USERS, null, values);
         userToAdd.setmId(insertId);
         return userToAdd;
+    }
+
+    public User addUserData(User userToAdd) {
+        ContentValues values = new ContentValues();
+        values.put(UserDBHandler.COLUMN_TIME, userToAdd.getmCurrent_time());
+        values.put(UserDBHandler.COLUMN_DISTANCE_WEEKLY, userToAdd.getmDistance_ran_in_a_week());
+        values.put(UserDBHandler.COLUMN_TIME_WEEKLY, userToAdd.getmTime_ran_in_a_week());
+        values.put(UserDBHandler.COLUMN_WORKOUTS_WEEKLY, userToAdd.getmWorkouts_done_in_a_week());
+        values.put(UserDBHandler.COLUMN_CALORIES_WEEKLY, userToAdd.getmCalories_burned_in_a_week());
+        long insertID = database.insert(UserDBHandler.TABLE_USER_DATA, null, values);
+        userToAdd.setmId(insertID);
+        return userToAdd;
+    }
+
+    public User getUserData(long id) {
+        Cursor cursor = database.query(UserDBHandler.TABLE_USER_DATA, allUserDataColumns,
+                        UserDBHandler.COLUMN_ID + "=?",new String[]{String.valueOf(id)},
+                null,null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        return null;
+//        return new User(Long.parseLong(cursor.getString(0)),
+//                cursor.getString(1),
+//                cursor.getString(2),
+//                Float.parseFloat(cursor.getString(3)));
     }
 
     //Get a single user

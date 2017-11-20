@@ -12,15 +12,11 @@ public class User {
     private String mGender;
     private float mWeight;
 
+    private String mCurrent_time;
     private float mDistance_ran_in_a_week;
     private float mTime_ran_in_a_week;
     private float mWorkouts_done_in_a_week;
     private float mCalories_burned_in_a_week;
-
-    private float mDistance_ran_in_total;
-    private float mTime_ran_in_total;
-    private float mWorkouts_done_in_total;
-    private float mCalories_burned_in_total;
 
     public User(long id, String name, String gender, float weight) {
         mId = id;
@@ -29,8 +25,25 @@ public class User {
         mWeight = weight;
     }
 
+    public User(String currentTime, float distance, float time, float workouts, float calories) {
+        mCurrent_time = currentTime;
+        mDistance_ran_in_a_week = distance;
+        mTime_ran_in_a_week = time;
+        mWorkouts_done_in_a_week = workouts;
+        mCalories_burned_in_a_week = calories;
+
+    }
+
     public User() {
 
+    }
+
+    public long getmId() {
+        return mId;
+    }
+
+    public void setmId(long Id) {
+        this.mId = Id;
     }
 
     public String getmName() {
@@ -55,6 +68,14 @@ public class User {
 
     public void setmWeight(float weight) {
         mWeight = weight;
+    }
+
+    public String getmCurrent_time() {
+        return mCurrent_time;
+    }
+
+    public void setmCurrent_time(String Current_time) {
+        this.mCurrent_time = Current_time;
     }
 
     public float getmDistance_ran_in_a_week() {
@@ -87,47 +108,6 @@ public class User {
 
     public void setmCalories_burned_in_a_week(float Calories_burned_in_a_week) {
         this.mCalories_burned_in_a_week = Calories_burned_in_a_week;
-    }
-
-    public float getmDistance_ran_in_total() {
-        return mDistance_ran_in_total;
-    }
-
-    public void setmDistance_ran_in_total(float Distance_ran_in_total) {
-        this.mDistance_ran_in_total = Distance_ran_in_total;
-    }
-
-    public float getmTime_ran_in_total() {
-        return mTime_ran_in_total;
-    }
-
-    public void setmTime_ran_in_total(float Time_ran_in_total) {
-        this.mTime_ran_in_total = Time_ran_in_total;
-    }
-
-    public float getmWorkouts_done_in_total() {
-        return mWorkouts_done_in_total;
-    }
-
-    public void setmWorkouts_done_in_total(float Workouts_done_in_total) {
-        this.mWorkouts_done_in_total = Workouts_done_in_total;
-    }
-
-    public float getmCalories_burned_in_total() {
-        return mCalories_burned_in_total;
-    }
-
-    public void setmCalories_burned_in_total(float Calories_burned_in_total) {
-        this.mCalories_burned_in_total = Calories_burned_in_total;
-
-    }
-
-    public long getmId() {
-        return mId;
-    }
-
-    public void setmId(long Id) {
-        this.mId = Id;
     }
 
     public String toString() {

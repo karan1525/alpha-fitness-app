@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import io.github.karan.alphafitness.Manifest;
 import io.github.karan.alphafitness.R;
 import io.github.karan.alphafitness.controller.StepListener;
+import io.github.karan.alphafitness.database.UsersDBOperations;
 import io.github.karan.alphafitness.model.StepDetector;
 import io.github.karan.alphafitness.model.WatchTime;
 
@@ -59,6 +60,8 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private int numSteps;
+
+    private UsersDBOperations mUserOps;
 
     @Nullable
     LocationManager mLocationManager;
@@ -213,6 +216,13 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
 
             mHandler.postDelayed(this, 0);
         }
+    };
+
+    private Runnable writeToDB = new Runnable() {
+        public void run() {
+
+        }
+
     };
 
     @NonNull

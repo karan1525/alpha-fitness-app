@@ -39,7 +39,7 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
         mUserOps.open();
 
         //hardcoded.. Stop recording and then uncomment this
-        if (mIsFirstRun) {
+        if (!mIsFirstRun) {
             checkIfUserExists();
         }
 
@@ -48,7 +48,8 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        if (!mIsFirstRun) {
+        if (mIsFirstRun) {
+            mIsFirstRun = false;
             saveUserInformation();
         }
         Intent intent = new Intent(this, Fitness_HomeScreen.class);
@@ -57,20 +58,29 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
     }
 
     private void checkIfUserExists() {
-        nameEditText.setText(R.string.user_name);
-        String gender = getString(R.string.user_gender);
+//        nameEditText.setText(R.string.user_name);
+//        String gender = getString(R.string.user_gender);
+//        if (gender.equalsIgnoreCase("Male")) {
+//            genderSpinner.setSelection(0);
+//        } else {
+//            genderSpinner.setSelection(1);
+//        }
+//        weightEditText.setText(R.string.user_weight);
+
+        User myCurrentUser = mUserOps.getUser(newUser.getmId());
+        nameEditText.setText(myCurrentUser.getmName());
+        String gender = myCurrentUser.getmGender();
         if (gender.equalsIgnoreCase("Male")) {
             genderSpinner.setSelection(0);
         } else {
             genderSpinner.setSelection(1);
         }
-        weightEditText.setText(R.string.user_weight);
+        weightEditText.setText(String.valueOf(myCurrentUser.getmWeight()));
 
         mIsFirstRun = false;
     }
 
     private void saveUserInformation() {
-        boolean dbSuccess = false;
         if (!nameEditText.getText().toString().isEmpty()) {
             newUser.setmName(nameEditText.getText().toString());
         }
@@ -84,19 +94,13 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
         if (!nameEditText.getText().toString().isEmpty()) {
             TastyToast.makeText(this, "User " + newUser.getmName() + " has been added successfully",
                     TastyToast.LENGTH_LONG, TastyToast.SUCCESS);
-            dbSuccess = true;
         } else {
             TastyToast.makeText(this, "User " + newUser.getmName() + " was not added. Try again",
                     TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
         }
 
-        if (dbSuccess) {
-            mUserOps.close();
-        } else {
             TastyToast.makeText(this, "User adding failed!", TastyToast.LENGTH_LONG,
                     TastyToast.ERROR);
-            dbSuccess = false;
-        }
 
 
     }

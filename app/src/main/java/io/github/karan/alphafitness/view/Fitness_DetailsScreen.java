@@ -17,6 +17,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import java.util.ArrayList;
 
 import io.github.karan.alphafitness.R;
+import io.github.karan.alphafitness.database.UserDBHandler;
 
 public class Fitness_DetailsScreen extends FragmentActivity {
 
