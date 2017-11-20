@@ -14,9 +14,6 @@ import io.github.karan.alphafitness.model.User;
 
 public class Fitness_ProfileScreen extends AppCompatActivity {
 
-    private static final String EXTRA_USER_ID = "io.github.karan.alphafitness.userID";
-    private static final String EXTRA_ADD_UPDATE = "io.github.karan.alphafitness.add_update";
-
     private EditText nameEditText;
     private Spinner genderSpinner;
     private EditText weightEditText;
@@ -40,7 +37,6 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
 
         mSavedUser = mUserOps.getUser(1);
 
-        //hardcoded.. Stop recording and then uncomment this
         if (!mIsFirstRun) {
             checkIfUserExists();
         }

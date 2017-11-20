@@ -12,7 +12,7 @@ public class SensorFilter {
     private SensorFilter() {
     }
 
-    public static float sum(float[] array) {
+    static float sum(float[] array) {
         float retValue = 0;
 
         for (float item: array) retValue += item;
@@ -31,7 +31,7 @@ public class SensorFilter {
         return returnArray;
     }
 
-    public static float norm(float[] array) {
+    static float norm(float[] array) {
         float returnValue = 0;
 
         for (float item: array) {
@@ -41,7 +41,7 @@ public class SensorFilter {
         return (float) Math.sqrt(returnValue);
     }
 
-    public static float dot (float[] arrayA, float[] arrayB) {
+    static float dot (float[] arrayA, float[] arrayB) {
         return (arrayA[0] * arrayB[0]) + (arrayA[1] * arrayB[1]) + (arrayA[2] * arrayB[2]);
     }
 
