@@ -23,6 +23,7 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
     private User newUser;
     private long userId;
     private UsersDBOperations mUserOps;
+    private static boolean mIsFirstRun = true;
 
 
     @Override
@@ -38,14 +39,18 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
         mUserOps.open();
 
         //hardcoded.. Stop recording and then uncomment this
-//        checkIfUserExists();
+        if (mIsFirstRun) {
+            checkIfUserExists();
+        }
 
     }
 
     @Override
     public void onBackPressed() {
 
-        saveUserInformation();
+        if (!mIsFirstRun) {
+            saveUserInformation();
+        }
         Intent intent = new Intent(this, Fitness_HomeScreen.class);
         startActivity(intent);
         finish();
@@ -59,8 +64,9 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
         } else {
             genderSpinner.setSelection(1);
         }
-        weightEditText.setText(String.valueOf(R.string.user_weight));
+        weightEditText.setText(R.string.user_weight);
 
+        mIsFirstRun = false;
     }
 
     private void saveUserInformation() {
