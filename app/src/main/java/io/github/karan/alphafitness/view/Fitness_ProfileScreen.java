@@ -85,7 +85,7 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
             TastyToast.makeText(this, "User " + newUser.getmName() + " has been added successfully",
                     TastyToast.LENGTH_LONG, TastyToast.SUCCESS);
         } else if (nameEditText.getText().toString().isEmpty()) {
-            TastyToast.makeText(this, "User adding failed!", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+            TastyToast.makeText(this, "User adding failed! Try again", TastyToast.LENGTH_LONG, TastyToast.ERROR);
         } else {
             TastyToast.makeText(this, "User " + newUser.getmName() + " was already in the DB. Try again",
                     TastyToast.LENGTH_LONG, TastyToast.CONFUSING);

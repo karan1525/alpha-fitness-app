@@ -290,8 +290,8 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
     LocationListener locationListenerGPS = new LocationListener() {
         @Override
         public void onLocationChanged(@NonNull android.location.Location location) {
-            double latitude=location.getLatitude();
-            double longitude=location.getLongitude();
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
 
             mLocationList.add(new LatLng(latitude, longitude));
 
