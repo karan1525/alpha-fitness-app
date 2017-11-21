@@ -295,7 +295,7 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
 
             mLocationList.add(new LatLng(latitude, longitude));
 
-            PolylineOptions options = new PolylineOptions().width(5).color(Color.BLUE).geodesic(true);
+            PolylineOptions options = new PolylineOptions().width(5).color(R.color.polyline_blue).geodesic(true);
             for (int z = 0; z < mLocationList.size(); z++) {
                 LatLng point = mLocationList.get(z);
                 options.add(point);

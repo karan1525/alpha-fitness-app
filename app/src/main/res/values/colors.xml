@@ -8,4 +8,5 @@
     <color name="gray">#D3D3D3</color>
     <color name="green">#90EE90</color>
     <color name="chart_green">#68F1AF</color>
+    <color name="polyline_blue">#37B4DE</color>
 </resources>
