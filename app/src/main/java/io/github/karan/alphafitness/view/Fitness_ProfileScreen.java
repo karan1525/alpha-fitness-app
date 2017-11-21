@@ -79,23 +79,18 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
             newUser.setmWeight(Float.parseFloat(weightEditText.getText().toString()));
         }
 
-        if(!mSavedUser.getmName().equalsIgnoreCase(newUser.getmName())) {
+        if((!mSavedUser.getmName().equalsIgnoreCase(newUser.getmName())) && !
+                nameEditText.getText().toString().isEmpty()) {
             mSavedUser = mUserOps.addUser(newUser);
-        } else {
-            TastyToast.makeText(this, "User " + newUser.getmName() + " was not added. Try again",
-                    TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
-        }
-
-        if (!nameEditText.getText().toString().isEmpty()) {
             TastyToast.makeText(this, "User " + newUser.getmName() + " has been added successfully",
                     TastyToast.LENGTH_LONG, TastyToast.SUCCESS);
+        } else if (nameEditText.getText().toString().isEmpty()) {
+            TastyToast.makeText(this, "User adding failed!", TastyToast.LENGTH_LONG, TastyToast.ERROR);
         } else {
-            TastyToast.makeText(this, "User " + newUser.getmName() + " was not added. Try again",
+            TastyToast.makeText(this, "User " + newUser.getmName() + " was already in the DB. Try again",
                     TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
         }
 
-            TastyToast.makeText(this, "User adding failed!", TastyToast.LENGTH_LONG,
-                    TastyToast.ERROR);
 
 
     }
