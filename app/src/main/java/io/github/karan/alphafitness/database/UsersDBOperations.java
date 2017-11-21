@@ -7,11 +7,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.github.karan.alphafitness.model.User;
+import io.github.karan.alphafitness.model.UserData;
 
 /**
  * A class to do CRUD operations
- * on the database that was created before
+ * on the database
  */
 
 public class UsersDBOperations {
@@ -20,6 +24,8 @@ public class UsersDBOperations {
 
     private SQLiteOpenHelper dbhandler;
     private SQLiteDatabase database;
+
+    private final int DAYS_IN_A_WEEK = 7;
 
     private static final String[] allUserColumns = {
             UserDBHandler.COLUMN_ID,
@@ -30,7 +36,6 @@ public class UsersDBOperations {
 
     private static final String[] allUserDataColumns = {
             UserDBHandler.COLUMN_ID,
-            UserDBHandler.COLUMN_TIME,
             UserDBHandler.COLUMN_DISTANCE_WEEKLY,
             UserDBHandler.COLUMN_TIME_WEEKLY,
             UserDBHandler.COLUMN_WORKOUTS_WEEKLY,
@@ -61,19 +66,19 @@ public class UsersDBOperations {
         return userToAdd;
     }
 
-    public User addUserData(User userToAdd) {
+    public UserData addUserData(UserData userDataToAdd) {
         ContentValues values = new ContentValues();
-        values.put(UserDBHandler.COLUMN_TIME, userToAdd.getmCurrent_time());
-        values.put(UserDBHandler.COLUMN_DISTANCE_WEEKLY, userToAdd.getmDistance_ran_in_a_week());
-        values.put(UserDBHandler.COLUMN_TIME_WEEKLY, userToAdd.getmTime_ran_in_a_week());
-        values.put(UserDBHandler.COLUMN_WORKOUTS_WEEKLY, userToAdd.getmWorkouts_done_in_a_week());
-        values.put(UserDBHandler.COLUMN_CALORIES_WEEKLY, userToAdd.getmCalories_burned_in_a_week());
+        values.put(UserDBHandler.COLUMN_ID, userDataToAdd.getmCurrent_time());
+        values.put(UserDBHandler.COLUMN_DISTANCE_WEEKLY, userDataToAdd.getmDistance_ran_in_a_week());
+        values.put(UserDBHandler.COLUMN_TIME_WEEKLY, userDataToAdd.getmTime_ran_in_a_week());
+        values.put(UserDBHandler.COLUMN_WORKOUTS_WEEKLY, userDataToAdd.getmWorkouts_done_in_a_week());
+        values.put(UserDBHandler.COLUMN_CALORIES_WEEKLY, userDataToAdd.getmCalories_burned_in_a_week());
         long insertID = database.insert(UserDBHandler.TABLE_USER_DATA, null, values);
-        userToAdd.setmId(insertID);
-        return userToAdd;
+        userDataToAdd.setmId(insertID);
+        return userDataToAdd;
     }
 
-    public User getUserData(long id) {
+    public UserData getUserData(long id) {
         Cursor cursor = database.query(UserDBHandler.TABLE_USER_DATA, allUserDataColumns,
                         UserDBHandler.COLUMN_ID + "=?",new String[]{String.valueOf(id)},
                 null,null, null, null);
@@ -82,13 +87,68 @@ public class UsersDBOperations {
             cursor.moveToFirst();
         }
 
+        UserData userDataToReturn = new UserData(cursor.getString(0), Float.parseFloat(cursor.getString(1)),
+                Float.parseFloat(cursor.getString(2)), Float.parseFloat(cursor.getString(3)),
+                        Float.parseFloat(cursor.getString(4)));
+
         cursor.close();
 
-        return null;
-//        return new User(Long.parseLong(cursor.getString(0)),
-//                cursor.getString(1),
-//                cursor.getString(2),
-//                Float.parseFloat(cursor.getString(3)));
+        return userDataToReturn;
+    }
+
+    public List<UserData> getWeeklyData() {
+
+        Cursor cursor = database.query(UserDBHandler.TABLE_USER_DATA, allUserDataColumns,
+                null,null,null, null, null);
+
+        int currentCount = 0;
+        List<UserData> weeklyUserData = new ArrayList<>();
+
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext() && currentCount < DAYS_IN_A_WEEK) {
+                UserData userData = new UserData();
+                userData.setmId((cursor.getLong(cursor.getColumnIndex(UserDBHandler.COLUMN_ID))));
+                userData.setmDistance_ran_in_a_week(cursor.getColumnIndex(UserDBHandler.COLUMN_DISTANCE_WEEKLY));
+                userData.setmTime_ran_in_a_week(cursor.getColumnIndex(UserDBHandler.COLUMN_TIME_WEEKLY));
+                userData.setmWorkouts_done_in_a_week(cursor.getColumnIndex(UserDBHandler.COLUMN_WORKOUTS_WEEKLY));
+                userData.setmCalories_burned_in_a_week(cursor.getColumnIndex(UserDBHandler.COLUMN_CALORIES_WEEKLY));
+
+                weeklyUserData.add(userData);
+                currentCount++;
+
+            }
+        }
+
+        cursor.close();
+
+        return weeklyUserData;
+
+    }
+
+    public List<UserData> getAllData() {
+
+        Cursor cursor = database.query(UserDBHandler.TABLE_USER_DATA, allUserDataColumns,
+                null,null,null, null, null);
+
+        List<UserData> allUserData = new ArrayList<>();
+
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                UserData userData = new UserData();
+                userData.setmId((cursor.getLong(cursor.getColumnIndex(UserDBHandler.COLUMN_ID))));
+                userData.setmDistance_ran_in_a_week(cursor.getColumnIndex(UserDBHandler.COLUMN_DISTANCE_WEEKLY));
+                userData.setmTime_ran_in_a_week(cursor.getColumnIndex(UserDBHandler.COLUMN_TIME_WEEKLY));
+                userData.setmWorkouts_done_in_a_week(cursor.getColumnIndex(UserDBHandler.COLUMN_WORKOUTS_WEEKLY));
+                userData.setmCalories_burned_in_a_week(cursor.getColumnIndex(UserDBHandler.COLUMN_CALORIES_WEEKLY));
+
+                allUserData.add(userData);
+
+            }
+        }
+
+        cursor.close();
+
+        return allUserData;
     }
 
     //Get a single user

@@ -21,7 +21,6 @@ public class UserDBHandler extends SQLiteOpenHelper {
     static final String COLUMN_WEIGHT= "weight";
 
     static final String TABLE_USER_DATA = "userData";
-    static final String COLUMN_TIME = "time";
     static final String COLUMN_DISTANCE_WEEKLY= "workoutDistance";
     static final String COLUMN_TIME_WEEKLY= "workoutTime";
     static final String COLUMN_WORKOUTS_WEEKLY= "numWorkouts";
@@ -37,7 +36,6 @@ public class UserDBHandler extends SQLiteOpenHelper {
     private static final String USER_DATA_TABLE =
             " CREATE TABLE " + TABLE_USER_DATA + " (" +
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    COLUMN_TIME + " TEXT, " +
                     COLUMN_DISTANCE_WEEKLY + " NUMERIC, " +
                     COLUMN_TIME_WEEKLY + " NUMERIC, " +
                     COLUMN_WORKOUTS_WEEKLY + " NUMERIC, " +
