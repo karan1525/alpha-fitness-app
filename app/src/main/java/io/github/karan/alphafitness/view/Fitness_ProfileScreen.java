@@ -3,11 +3,15 @@ package io.github.karan.alphafitness.view;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.sdsmdg.tastytoast.TastyToast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.github.karan.alphafitness.R;
 import io.github.karan.alphafitness.database.UsersDBOperations;
@@ -29,6 +33,11 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
     private TextView workout_content_textView;
     private TextView calories_burned_content_textView;
 
+    private TextView total_distance_content_textView;
+    private TextView total_time_content_textView;
+    private TextView total_workout_content_textview;
+    private TextView total_calories_burned_content_textView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +54,11 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
         workout_content_textView = findViewById(R.id.workout_content_textView);
         calories_burned_content_textView = findViewById(R.id.calories_burned_content_textView);
 
+        total_distance_content_textView = findViewById(R.id._total_distance_content_textView);
+        total_time_content_textView = findViewById(R.id.total_time_content_textView);
+        total_workout_content_textview = findViewById(R.id.total_workout_content_textView);
+        total_calories_burned_content_textView = findViewById(R.id.total_calories_burned_content_textView);
+
         mUserOps = new UsersDBOperations(this);
         mUserOps.open();
 
@@ -52,7 +66,8 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
 
         if (!mIsFirstRun) {
             checkIfUserExists();
-            getTestData();
+            getWeeklyData();
+            getAllData();
         }
 
     }
@@ -107,12 +122,12 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
 
     }
 
-    public void getTestData() {
+    public void getWeeklyData() {
         UserData userData = mUserOps.getUserData(1);
 
         String distance = String.valueOf(userData.getmDistance_ran_in_a_week()) + " miles";
-        String time = String.valueOf(userData.getmTime_ran_in_a_week()) + " minutes";
-        String workout = String.valueOf(userData.getmWorkouts_done_in_a_week()) + " times";
+        String time = timeConvert((int) userData.getmTime_ran_in_a_week());
+        String workout = String.valueOf((int) userData.getmWorkouts_done_in_a_week()) + " times";
         String calories = String.valueOf(userData.getmCalories_burned_in_a_week()) + " calories";
 
         distance_content_textView.setText(distance);
@@ -120,5 +135,54 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
         workout_content_textView.setText(workout);
         calories_burned_content_textView.setText(calories);
 
+    }
+
+    public void getAllData() {
+
+        List<UserData> allData;
+
+        allData = mUserOps.getAllData();
+        float totalDistance = 0;
+        float totalTime = 0;
+        int totalWorkouts = 0;
+        float totalCalories = 0;
+
+        for (UserData data: allData) {
+            //distance
+            totalDistance += data.getmDistance_ran_in_a_week();
+            Log.v("TestDistance", String.valueOf(totalDistance));
+            //time
+            totalTime += data.getmTime_ran_in_a_week();
+            Log.v("TestTime", String.valueOf(totalTime));
+            //workouts
+            totalWorkouts = (int) data.getmWorkouts_done_in_a_week();
+            Log.v("TestWorkouts", String.valueOf(totalWorkouts));
+            //calories
+            totalCalories += data.getmCalories_burned_in_a_week();
+            Log.v("TestCalories", String.valueOf(totalCalories));
+        }
+
+        String timeInString = timeConvert( (int) totalTime);
+
+        String distance = String.valueOf(totalDistance) + " miles";
+        String workouts = String.valueOf(totalWorkouts) + " times";
+        String calories = String.valueOf(totalCalories) + " calories";
+
+        total_distance_content_textView.setText(distance);
+        total_time_content_textView.setText(timeInString);
+        total_workout_content_textview.setText(workouts);
+        total_calories_burned_content_textView.setText(calories);
+
+    }
+
+    private String timeConvert(int timeInMinutes) {
+        int seconds = timeInMinutes * 60;
+
+        int minutes = (seconds % 3600) / 60;
+        int hours = seconds / 3600;
+        int days = seconds / 86400;
+        seconds = (seconds % 3600) % 60;
+
+        return days + " day " + hours + " hr " + minutes + " min " + seconds + " sec";
     }
 }

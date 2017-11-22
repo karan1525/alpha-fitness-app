@@ -118,10 +118,10 @@ public class UsersDBOperations {
             while (cursor.moveToNext() && currentCount < DAYS_IN_A_WEEK) {
                 UserData userData = new UserData();
                 userData.setmId((cursor.getLong(cursor.getColumnIndex(UserDBHandler.COLUMN_ID))));
-                userData.setmDistance_ran_in_a_week(cursor.getColumnIndex(UserDBHandler.COLUMN_DISTANCE_WEEKLY));
-                userData.setmTime_ran_in_a_week(cursor.getColumnIndex(UserDBHandler.COLUMN_TIME_WEEKLY));
-                userData.setmWorkouts_done_in_a_week(cursor.getColumnIndex(UserDBHandler.COLUMN_WORKOUTS_WEEKLY));
-                userData.setmCalories_burned_in_a_week(cursor.getColumnIndex(UserDBHandler.COLUMN_CALORIES_WEEKLY));
+                userData.setmDistance_ran_in_a_week(cursor.getFloat(cursor.getColumnIndex(UserDBHandler.COLUMN_DISTANCE_WEEKLY)));
+                userData.setmTime_ran_in_a_week(cursor.getFloat(cursor.getColumnIndex(UserDBHandler.COLUMN_TIME_WEEKLY)));
+                userData.setmWorkouts_done_in_a_week(cursor.getFloat(cursor.getColumnIndex(UserDBHandler.COLUMN_WORKOUTS_WEEKLY)));
+                userData.setmCalories_burned_in_a_week(cursor.getFloat(cursor.getColumnIndex(UserDBHandler.COLUMN_CALORIES_WEEKLY)));
 
                 weeklyUserData.add(userData);
                 currentCount++;
@@ -146,10 +146,10 @@ public class UsersDBOperations {
             while (cursor.moveToNext()) {
                 UserData userData = new UserData();
                 userData.setmId((cursor.getLong(cursor.getColumnIndex(UserDBHandler.COLUMN_ID))));
-                userData.setmDistance_ran_in_a_week(cursor.getColumnIndex(UserDBHandler.COLUMN_DISTANCE_WEEKLY));
-                userData.setmTime_ran_in_a_week(cursor.getColumnIndex(UserDBHandler.COLUMN_TIME_WEEKLY));
-                userData.setmWorkouts_done_in_a_week(cursor.getColumnIndex(UserDBHandler.COLUMN_WORKOUTS_WEEKLY));
-                userData.setmCalories_burned_in_a_week(cursor.getColumnIndex(UserDBHandler.COLUMN_CALORIES_WEEKLY));
+                userData.setmDistance_ran_in_a_week(cursor.getFloat(cursor.getColumnIndex(UserDBHandler.COLUMN_DISTANCE_WEEKLY)));
+                userData.setmTime_ran_in_a_week(cursor.getFloat(cursor.getColumnIndex(UserDBHandler.COLUMN_TIME_WEEKLY)));
+                userData.setmWorkouts_done_in_a_week(cursor.getFloat(cursor.getColumnIndex(UserDBHandler.COLUMN_WORKOUTS_WEEKLY)));
+                userData.setmCalories_burned_in_a_week(cursor.getFloat(cursor.getColumnIndex(UserDBHandler.COLUMN_CALORIES_WEEKLY)));
 
                 allUserData.add(userData);
 
