@@ -3,7 +3,6 @@ package io.github.karan.alphafitness.model;
 /**
  * A class representing the algorithm to
  * estimate the steps
- *
  * CODE CITATION: http://www.gadgetsaint.com/android/create-pedometer-step-counter-android/#.WgYI0rbMyEs
  */
 
@@ -38,7 +37,6 @@ public class SensorFilter {
         for (float item: array) {
             returnValue += item * item;
         }
-
         return (float) Math.sqrt(returnValue);
     }
 
@@ -56,6 +54,5 @@ public class SensorFilter {
 
         return returnArray;
     }
-
 
 }

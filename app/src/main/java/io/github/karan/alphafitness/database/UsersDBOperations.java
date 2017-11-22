@@ -110,11 +110,9 @@ public class UsersDBOperations {
 
             }
         }
-
         cursor.close();
 
         return weeklyUserData;
-
     }
 
     public List<UserData> getAllData() {

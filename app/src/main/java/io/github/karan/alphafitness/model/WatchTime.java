@@ -17,12 +17,6 @@ public class WatchTime {
         mStoredTime = 0L;
     }
 
-    public void resetWatchTime() {
-        mStartTime = 0L;
-        mTimeUpdate = 0L;
-        mStoredTime = 0L;
-    }
-
     public void setStartTime(long startTime) {
         mStartTime = startTime;
     }

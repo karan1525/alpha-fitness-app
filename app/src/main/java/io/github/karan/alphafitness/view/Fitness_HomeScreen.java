@@ -265,6 +265,7 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
     };
 
     @NonNull
+    @SuppressWarnings("unused")
     private Runnable locationChangedRunnable = new Runnable() {
         public void run() {
             LocationListener locationListenerGPS = new LocationListener() {
