@@ -117,6 +117,12 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
         mHandler = new Handler();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mUserOps.close();
+    }
+
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,

@@ -88,24 +88,6 @@ public class UsersDBOperations {
                 UserDBHandler.COLUMN_ID + "=?",new String[] { String.valueOf(userData.getmId())});
     }
 
-    public UserData getUserData(long id) {
-        Cursor cursor = database.query(UserDBHandler.TABLE_USER_DATA, allUserDataColumns,
-                        UserDBHandler.COLUMN_ID + "=?",new String[]{String.valueOf(id)},
-                null,null, null, null);
-
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-
-        UserData userDataToReturn = new UserData(cursor.getString(0), Float.parseFloat(cursor.getString(1)),
-                Float.parseFloat(cursor.getString(2)), Float.parseFloat(cursor.getString(3)),
-                        Float.parseFloat(cursor.getString(4)));
-
-        cursor.close();
-
-        return userDataToReturn;
-    }
-
     public List<UserData> getWeeklyData() {
 
         Cursor cursor = database.query(UserDBHandler.TABLE_USER_DATA, allUserDataColumns,
@@ -170,12 +152,6 @@ public class UsersDBOperations {
         if (cursor != null)
             cursor.moveToFirst();
 
-        Log.d(LOGTAG,cursor.getString(0));
-        Log.d(LOGTAG,cursor.getString(1));
-        Log.d(LOGTAG,cursor.getString(2));
-        Log.d(LOGTAG,cursor.getString(3));
-
-
          User user = new User(Long.parseLong(cursor.getString(0)),
                 cursor.getString(1),
                 cursor.getString(2),
@@ -202,6 +178,4 @@ public class UsersDBOperations {
         database.delete(UserDBHandler.TABLE_USERS,
                 UserDBHandler.COLUMN_ID + "=" + user.getmId(), null);
     }
-
-
 }

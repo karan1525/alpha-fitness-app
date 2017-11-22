@@ -3,14 +3,12 @@ package io.github.karan.alphafitness.view;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.sdsmdg.tastytoast.TastyToast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.github.karan.alphafitness.R;
@@ -73,6 +71,12 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mUserOps.close();
+    }
+
+    @Override
     public void onBackPressed() {
 
         if (mIsFirstRun) {
@@ -127,7 +131,7 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
         List<UserData> weeklyData;
 
         weeklyData = mUserOps.getWeeklyData();
-        
+
         float totalDistance = 0;
         float totalTime = 0;
         int totalWorkouts = 0;
