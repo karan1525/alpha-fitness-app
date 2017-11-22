@@ -123,16 +123,36 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
     }
 
     public void getWeeklyData() {
-        UserData userData = mUserOps.getUserData(1);
 
-        String distance = String.valueOf(userData.getmDistance_ran_in_a_week()) + " miles";
-        String time = timeConvert((int) userData.getmTime_ran_in_a_week());
-        String workout = String.valueOf((int) userData.getmWorkouts_done_in_a_week()) + " times";
-        String calories = String.valueOf(userData.getmCalories_burned_in_a_week()) + " calories";
+        List<UserData> weeklyData;
+
+        weeklyData = mUserOps.getWeeklyData();
+        
+        float totalDistance = 0;
+        float totalTime = 0;
+        int totalWorkouts = 0;
+        float totalCalories = 0;
+
+        for (UserData data: weeklyData) {
+            //distance
+            totalDistance += data.getmDistance_ran_in_a_week();
+            //time
+            totalTime += data.getmTime_ran_in_a_week();
+            //workouts
+            totalWorkouts = (int) data.getmWorkouts_done_in_a_week();
+            //calories
+            totalCalories += data.getmCalories_burned_in_a_week();
+        }
+
+        String timeInString = timeConvert( (int) totalTime);
+
+        String distance = String.valueOf(totalDistance) + " miles";
+        String workouts = String.valueOf(totalWorkouts) + " times";
+        String calories = String.valueOf(totalCalories) + " calories";
 
         distance_content_textView.setText(distance);
-        time_content_textView.setText(time);
-        workout_content_textView.setText(workout);
+        time_content_textView.setText(timeInString);
+        workout_content_textView.setText(workouts);
         calories_burned_content_textView.setText(calories);
 
     }
@@ -150,16 +170,12 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
         for (UserData data: allData) {
             //distance
             totalDistance += data.getmDistance_ran_in_a_week();
-            Log.v("TestDistance", String.valueOf(totalDistance));
             //time
             totalTime += data.getmTime_ran_in_a_week();
-            Log.v("TestTime", String.valueOf(totalTime));
             //workouts
             totalWorkouts = (int) data.getmWorkouts_done_in_a_week();
-            Log.v("TestWorkouts", String.valueOf(totalWorkouts));
             //calories
             totalCalories += data.getmCalories_burned_in_a_week();
-            Log.v("TestCalories", String.valueOf(totalCalories));
         }
 
         String timeInString = timeConvert( (int) totalTime);
