@@ -5,12 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.sdsmdg.tastytoast.TastyToast;
 
 import io.github.karan.alphafitness.R;
 import io.github.karan.alphafitness.database.UsersDBOperations;
 import io.github.karan.alphafitness.model.User;
+import io.github.karan.alphafitness.model.UserData;
 
 public class Fitness_ProfileScreen extends AppCompatActivity {
 
@@ -22,6 +24,11 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
     private UsersDBOperations mUserOps;
     private static boolean mIsFirstRun = true;
 
+    private TextView distance_content_textView;
+    private TextView time_content_textView;
+    private TextView workout_content_textView;
+    private TextView calories_burned_content_textView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +39,12 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
         nameEditText = findViewById(R.id.user_name_textEdit);
         genderSpinner = findViewById(R.id.gender_spinner);
         weightEditText = findViewById(R.id.weight_edit_text);
+
+        distance_content_textView = findViewById(R.id.distance_content_textView);
+        time_content_textView = findViewById(R.id.time_content_textView);
+        workout_content_textView = findViewById(R.id.workout_content_textView);
+        calories_burned_content_textView = findViewById(R.id.calories_burned_content_textView);
+
         mUserOps = new UsersDBOperations(this);
         mUserOps.open();
 
@@ -39,6 +52,7 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
 
         if (!mIsFirstRun) {
             checkIfUserExists();
+            getTestData();
         }
 
     }
@@ -91,7 +105,20 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
                     TastyToast.LENGTH_LONG, TastyToast.CONFUSING);
         }
 
+    }
 
+    public void getTestData() {
+        UserData userData = mUserOps.getUserData(1);
+
+        String distance = String.valueOf(userData.getmDistance_ran_in_a_week()) + " miles";
+        String time = String.valueOf(userData.getmTime_ran_in_a_week()) + " minutes";
+        String workout = String.valueOf(userData.getmWorkouts_done_in_a_week()) + " times";
+        String calories = String.valueOf(userData.getmCalories_burned_in_a_week()) + " calories";
+
+        distance_content_textView.setText(distance);
+        time_content_textView.setText(time);
+        workout_content_textView.setText(workout);
+        calories_burned_content_textView.setText(calories);
 
     }
 }
