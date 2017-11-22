@@ -248,16 +248,16 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
 
             final int CALORIES_BURNED_PER_2000_STEPS = 120;
             Float distanceRan = (float) numSteps / STEPS_IN_A_MILE;
-            Float workoutTime = Float.parseFloat(timeDisplay.getText().toString().substring(0,1));
+            Float workoutTime = 5f;
             numWorkouts++;
-            Float workoutCalories = distanceRan / CALORIES_BURNED_PER_2000_STEPS;
+            Float workoutCalories = (distanceRan / CALORIES_BURNED_PER_2000_STEPS) * 10000;
 
             mUserData.setmDistance_ran_in_a_week(distanceRan);
             mUserData.setmTime_ran_in_a_week(workoutTime);
             mUserData.setmWorkouts_done_in_a_week(numWorkouts);
             mUserData.setmCalories_burned_in_a_week(workoutCalories);
 
-            UserData justAdded = mUserOps.addUserData(mUserData);
+            mUserOps.addUserData(mUserData);
 
             mHandler.postDelayed(this, 300000);
         }
