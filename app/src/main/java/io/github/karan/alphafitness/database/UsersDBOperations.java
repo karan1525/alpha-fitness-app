@@ -68,7 +68,6 @@ public class UsersDBOperations {
 
     public UserData addUserData(UserData userDataToAdd) {
         ContentValues values = new ContentValues();
-        values.put(UserDBHandler.COLUMN_ID, userDataToAdd.getmCurrent_time());
         values.put(UserDBHandler.COLUMN_DISTANCE_WEEKLY, userDataToAdd.getmDistance_ran_in_a_week());
         values.put(UserDBHandler.COLUMN_TIME_WEEKLY, userDataToAdd.getmTime_ran_in_a_week());
         values.put(UserDBHandler.COLUMN_WORKOUTS_WEEKLY, userDataToAdd.getmWorkouts_done_in_a_week());
@@ -76,6 +75,17 @@ public class UsersDBOperations {
         long insertID = database.insert(UserDBHandler.TABLE_USER_DATA, null, values);
         userDataToAdd.setmId(insertID);
         return userDataToAdd;
+    }
+
+    public int updateUserData(UserData userData) {
+        ContentValues values = new ContentValues();
+        values.put(UserDBHandler.COLUMN_DISTANCE_WEEKLY, userData.getmDistance_ran_in_a_week());
+        values.put(UserDBHandler.COLUMN_TIME_WEEKLY, userData.getmTime_ran_in_a_week());
+        values.put(UserDBHandler.COLUMN_WORKOUTS_WEEKLY, userData.getmWorkouts_done_in_a_week());
+        values.put(UserDBHandler.COLUMN_CALORIES_WEEKLY, userData.getmCalories_burned_in_a_week());
+
+        return database.update(UserDBHandler.TABLE_USER_DATA, values,
+                UserDBHandler.COLUMN_ID + "=?",new String[] { String.valueOf(userData.getmId())});
     }
 
     public UserData getUserData(long id) {

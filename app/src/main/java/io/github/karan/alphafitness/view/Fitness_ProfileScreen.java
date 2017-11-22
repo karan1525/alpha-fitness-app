@@ -20,7 +20,7 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
     private Spinner genderSpinner;
     private EditText weightEditText;
     private User newUser;
-    private User mSavedUser;
+    private static User mSavedUser;
     private UsersDBOperations mUserOps;
     private static boolean mIsFirstRun = true;
 

@@ -40,6 +40,7 @@ import io.github.karan.alphafitness.R;
 import io.github.karan.alphafitness.controller.StepListener;
 import io.github.karan.alphafitness.database.UsersDBOperations;
 import io.github.karan.alphafitness.model.StepDetector;
+import io.github.karan.alphafitness.model.UserData;
 import io.github.karan.alphafitness.model.WatchTime;
 
 public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCallback, SensorEventListener, StepListener{
@@ -62,6 +63,11 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
     private int numSteps;
 
     private UsersDBOperations mUserOps;
+    private int numWorkouts = 2;
+    private UserData mUserData;
+
+    private final int STEPS_IN_A_MILE = 2000;
+    private final int CALORIES_BURNED_PER_2000_STEPS = 120;
 
     @Nullable
     LocationManager mLocationManager;
@@ -86,7 +92,11 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
         mContext = this;
         mLocationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
         mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 10, locationListenerGPS);
-        mLocationList = new ArrayList<LatLng>();
+        mLocationList = new ArrayList<>();
+        mUserOps = new UsersDBOperations(this);
+        mUserData = new UserData();
+
+        mUserOps.open();
 
         Configuration configuration = getResources().getConfiguration();
 
@@ -183,16 +193,22 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
             sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_FASTEST);
             mHandler.postDelayed(locationChangedRunnable, 20);
 
+            mHandler.postDelayed(writeToDBRunnable, 60000);
+
         } else {
             String START_WORKOUT_STRING = "Start Workout";
             startStopWorkoutButton.setText(START_WORKOUT_STRING);
             firstClickOfWorkoutButton = true;
+
+            distanceTextView.setText(R.string.zeroDistance);
+            timeDisplay.setText(R.string.zeroTime);
 
             sensorManager.unregisterListener(this);
 
             watchTime.addStoredTime(timeInMilliseconds);
             mHandler.removeCallbacks(updateTimerRunnable);
             mHandler.removeCallbacks(locationChangedRunnable);
+            mHandler.removeCallbacks(writeToDBRunnable);
         }
     }
 
@@ -218,9 +234,22 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
         }
     };
 
-    private Runnable writeToDB = new Runnable() {
+    private Runnable writeToDBRunnable = new Runnable() {
         public void run() {
 
+            Float distanceRan = (float) numSteps / STEPS_IN_A_MILE;
+            Float workoutTime = Float.parseFloat(timeDisplay.getText().toString().substring(0,1));
+            numWorkouts++;
+            Float workoutCalories = distanceRan / CALORIES_BURNED_PER_2000_STEPS;
+
+            mUserData.setmDistance_ran_in_a_week(distanceRan);
+            mUserData.setmTime_ran_in_a_week(workoutTime);
+            mUserData.setmWorkouts_done_in_a_week(numWorkouts);
+            mUserData.setmCalories_burned_in_a_week(workoutCalories);
+
+            mUserOps.addUserData(mUserData);
+
+            mHandler.postDelayed(this, 60000);
         }
 
     };
@@ -281,7 +310,6 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
     @Override
     public void step(long timeNs) {
         numSteps++;
-        int STEPS_IN_A_MILE = 2000;
         String stringToSet = String.valueOf( (float) numSteps / STEPS_IN_A_MILE);
         distanceTextView.setText(stringToSet);
     }
