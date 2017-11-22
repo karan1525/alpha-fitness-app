@@ -230,9 +230,9 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
             int seconds = time % 60;
             int milliseconds = (int) (watchTime.getTimeUpdate() % 1000);
 
-            String timerString = String.format("%02d", minutes) + ":"
-                    + String.format("%02d", seconds) + ":"
-                    + String.format("%02d", milliseconds);
+            String timerString = String.format(java.util.Locale.US, "%02d", minutes) + ":"
+                    + String.format(java.util.Locale.US, "%02d", seconds) + ":"
+                    + String.format(java.util.Locale.US, "%02d", milliseconds);
 
             timeDisplay.setText(timerString);
 
@@ -266,8 +266,8 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
             LocationListener locationListenerGPS = new LocationListener() {
                 @Override
                 public void onLocationChanged(@NonNull android.location.Location location) {
-                    double latitude=location.getLatitude();
-                    double longitude=location.getLongitude();
+                    double latitude = location.getLatitude();
+                    double longitude = location.getLongitude();
 
                     mLocationList.add(new LatLng(latitude, longitude));
 

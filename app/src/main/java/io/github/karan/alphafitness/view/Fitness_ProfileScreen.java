@@ -150,9 +150,9 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
 
         String timeInString = timeConvert( (int) totalTime);
 
-        String distance = String.valueOf(totalDistance) + " miles";
+        String distance = String.format(java.util.Locale.US,"%.2f",totalDistance) + " miles";
         String workouts = String.valueOf(totalWorkouts) + " times";
-        String calories = String.valueOf(totalCalories) + " calories";
+        String calories = String.format(java.util.Locale.US,"%.2f",totalCalories) + " calories";
 
         distance_content_textView.setText(distance);
         time_content_textView.setText(timeInString);
@@ -184,9 +184,9 @@ public class Fitness_ProfileScreen extends AppCompatActivity {
 
         String timeInString = timeConvert( (int) totalTime);
 
-        String distance = String.valueOf(totalDistance) + " miles";
+        String distance = String.format(java.util.Locale.US,"%.2f",totalDistance) + " miles";
         String workouts = String.valueOf(totalWorkouts) + " times";
-        String calories = String.valueOf(totalCalories) + " calories";
+        String calories = String.format(java.util.Locale.US,"%.2f",totalCalories) + " calories";
 
         total_distance_content_textView.setText(distance);
         total_time_content_textView.setText(timeInString);
