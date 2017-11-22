@@ -30,4 +30,8 @@
     <string name="average">Average:</string>
     <string name="max">Max:</string>
     <string name="min">Min:</string>
+    <string name="_0_0_miles">0.0 miles</string>
+    <string name="_0_0_minutes">0.0 minutes</string>
+    <string name="_0_times">0 times</string>
+    <string name="_0_cal">0 Cal</string>
 </resources>

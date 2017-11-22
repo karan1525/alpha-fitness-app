@@ -166,7 +166,7 @@
 
             <TextView
                 android:id="@+id/distance_content_textView"
-                android:text="0.0 miles"
+                android:text="@string/_0_0_miles"
                 android:gravity="end"
                 android:padding="3dip"
                 android:textSize="23sp"/>
@@ -182,7 +182,7 @@
 
             <TextView
                 android:id="@+id/time_content_textView"
-                android:text="0.0 minutes"
+                android:text="@string/_0_0_minutes"
                 android:gravity="end"
                 android:padding="3dip"
                 android:textSize="23sp"/>
@@ -198,7 +198,7 @@
 
             <TextView
                 android:id="@+id/workout_content_textView"
-                android:text="0 times"
+                android:text="@string/_0_times"
                 android:gravity="end"
                 android:padding="3dip"
                 android:textSize="23sp"/>
@@ -214,7 +214,7 @@
 
             <TextView
                 android:id="@+id/calories_burned_content_textView"
-                android:text="0 Cal"
+                android:text="@string/_0_cal"
                 android:gravity="end"
                 android:padding="3dip"
                 android:textSize="23sp"/>
@@ -258,7 +258,7 @@
 
             <TextView
                 android:id="@+id/_total_distance_content_textView"
-                android:text="0.0 miles"
+                android:text="@string/_0_0_miles"
                 android:gravity="end"
                 android:padding="3dip"
                 android:textSize="23sp"/>
@@ -274,7 +274,7 @@
 
             <TextView
                 android:id="@+id/total_time_content_textView"
-                android:text="0.0 minutes"
+                android:text="@string/_0_0_minutes"
                 android:gravity="end"
                 android:padding="3dip"
                 android:textSize="23sp"/>
@@ -290,7 +290,7 @@
 
             <TextView
                 android:id="@+id/total_workout_content_textView"
-                android:text="0 times"
+                android:text="@string/_0_times"
                 android:gravity="end"
                 android:padding="3dip"
                 android:textSize="23sp"/>
@@ -306,7 +306,7 @@
 
             <TextView
                 android:id="@+id/total_calories_burned_content_textView"
-                android:text="0 Cal"
+                android:text="@string/_0_cal"
                 android:gravity="end"
                 android:padding="3dip"
                 android:textSize="23sp"/>

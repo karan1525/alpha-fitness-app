@@ -18,14 +18,13 @@ import io.github.karan.alphafitness.model.UserData;
  * on the database
  */
 
+@SuppressWarnings("unused")
 public class UsersDBOperations {
 
-    static final String LOGTAG = "USER_MNGMNT_SYS";
+    private static final String LOGTAG = "USER_MNGMNT_SYS";
 
-    private SQLiteOpenHelper dbhandler;
+    private final SQLiteOpenHelper dbhandler;
     private SQLiteDatabase database;
-
-    private final int DAYS_IN_A_WEEK = 7;
 
     private static final String[] allUserColumns = {
             UserDBHandler.COLUMN_ID,
@@ -97,6 +96,7 @@ public class UsersDBOperations {
         List<UserData> weeklyUserData = new ArrayList<>();
 
         if (cursor.getCount() > 0) {
+            int DAYS_IN_A_WEEK = 7;
             while (cursor.moveToNext() && currentCount < DAYS_IN_A_WEEK) {
                 UserData userData = new UserData();
                 userData.setmId((cursor.getLong(cursor.getColumnIndex(UserDBHandler.COLUMN_ID))));
@@ -152,7 +152,8 @@ public class UsersDBOperations {
         if (cursor != null)
             cursor.moveToFirst();
 
-         User user = new User(Long.parseLong(cursor.getString(0)),
+        assert cursor != null;
+        User user = new User(Long.parseLong(cursor.getString(0)),
                 cursor.getString(1),
                 cursor.getString(2),
                 Float.parseFloat(cursor.getString(3)));

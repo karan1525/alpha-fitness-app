@@ -7,6 +7,7 @@ package io.github.karan.alphafitness.model;
  * CODE CITATION: http://www.gadgetsaint.com/android/create-pedometer-step-counter-android/#.WgYI0rbMyEs
  */
 
+@SuppressWarnings("unused")
 public class SensorFilter {
 
     private SensorFilter() {

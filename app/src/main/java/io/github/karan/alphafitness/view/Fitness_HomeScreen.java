@@ -67,7 +67,6 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
     private UserData mUserData;
 
     private final int STEPS_IN_A_MILE = 2000;
-    private final int CALORIES_BURNED_PER_2000_STEPS = 120;
 
     @Nullable
     LocationManager mLocationManager;
@@ -91,6 +90,7 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
 
         mContext = this;
         mLocationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+        assert mLocationManager != null;
         mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 10, locationListenerGPS);
         mLocationList = new ArrayList<>();
         mUserOps = new UsersDBOperations(this);
@@ -107,7 +107,7 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
         }
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        accelerometer = sensorManager != null ? sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) : null;
         simpleStepDetector = new StepDetector();
         simpleStepDetector.registerListener(this);
 
@@ -144,7 +144,8 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
         if (l == null) {
             Criteria criteria = new Criteria();
             criteria.setAccuracy(Criteria.ACCURACY_FINE);
-            String provider = locManager.getBestProvider(criteria, true);
+            String provider = locManager != null ? locManager.getBestProvider(criteria, true) : null;
+            assert locManager != null;
             l = locManager.getLastKnownLocation(provider);
 
             if (isFirstLaunch) {
@@ -196,6 +197,7 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
             numSteps = 0;
             distanceTextView.setText(R.string.zeroDistance);
             timeDisplay.setText(R.string.zeroTime);
+            assert sensorManager != null;
             sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_FASTEST);
             mHandler.postDelayed(locationChangedRunnable, 20);
 
@@ -209,6 +211,7 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
             distanceTextView.setText(R.string.zeroDistance);
             timeDisplay.setText(R.string.zeroTime);
 
+            assert sensorManager != null;
             sensorManager.unregisterListener(this);
 
             watchTime.addStoredTime(timeInMilliseconds);
@@ -243,6 +246,7 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
     private Runnable writeToDBRunnable = new Runnable() {
         public void run() {
 
+            final int CALORIES_BURNED_PER_2000_STEPS = 120;
             Float distanceRan = (float) numSteps / STEPS_IN_A_MILE;
             Float workoutTime = Float.parseFloat(timeDisplay.getText().toString().substring(0,1));
             numWorkouts++;
@@ -253,7 +257,7 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
             mUserData.setmWorkouts_done_in_a_week(numWorkouts);
             mUserData.setmCalories_burned_in_a_week(workoutCalories);
 
-            mUserOps.addUserData(mUserData);
+            UserData justAdded = mUserOps.addUserData(mUserData);
 
             mHandler.postDelayed(this, 300000);
         }

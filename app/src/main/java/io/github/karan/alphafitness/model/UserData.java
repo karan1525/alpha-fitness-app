@@ -7,7 +7,6 @@ package io.github.karan.alphafitness.model;
 public class UserData {
 
     private long mId;
-    private String mCurrent_time;
     private float mDistance_ran_in_a_week;
     private float mTime_ran_in_a_week;
     private float mWorkouts_done_in_a_week;
@@ -17,30 +16,12 @@ public class UserData {
 
     }
 
-    public UserData(String currentTime, float distance, float time, float workouts, float calories) {
-
-        mCurrent_time = currentTime;
-        mDistance_ran_in_a_week = distance;
-        mTime_ran_in_a_week = time;
-        mWorkouts_done_in_a_week = workouts;
-        mCalories_burned_in_a_week = calories;
-
-    }
-
     public long getmId() {
         return mId;
     }
 
     public void setmId(long Id) {
         this.mId = Id;
-    }
-
-    public String getmCurrent_time() {
-        return mCurrent_time;
-    }
-
-    public void setmCurrent_time(String Current_time) {
-        this.mCurrent_time = Current_time;
     }
 
     public float getmDistance_ran_in_a_week() {
