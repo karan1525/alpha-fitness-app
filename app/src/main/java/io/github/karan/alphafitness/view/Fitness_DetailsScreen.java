@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.Legend;
@@ -30,6 +31,10 @@ public class Fitness_DetailsScreen extends FragmentActivity {
     private UsersDBOperations mUserOps;
     private CombinedChart mChart;
 
+    private TextView average_text_view;
+    private TextView max_text_view;
+    private TextView min_text_view;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +52,11 @@ public class Fitness_DetailsScreen extends FragmentActivity {
         mUserOps.open();
 
         mChart = findViewById(R.id.chart);
+        average_text_view = findViewById(R.id.average_text_view);
+        max_text_view = findViewById(R.id.max_textView);
+        min_text_view = findViewById(R.id.min_textView);
 
+        getAverageMinMaxTimes();
         setupChart();
 
     }
@@ -58,7 +67,7 @@ public class Fitness_DetailsScreen extends FragmentActivity {
         super.onDestroy();
     }
 
-    public void setupChart() {
+    private void setupChart() {
         mChart.getDescription().setEnabled(false);
         mChart.setDrawGridBackground(false);
         mChart.setDrawBarShadow(false);
@@ -93,7 +102,7 @@ public class Fitness_DetailsScreen extends FragmentActivity {
 
     }
 
-    public List<Float> getCalorieData() {
+    private List<Float> getCalorieData() {
 
         List<Float> returnList = new ArrayList<>();
 
@@ -107,7 +116,7 @@ public class Fitness_DetailsScreen extends FragmentActivity {
         return returnList;
     }
 
-    public List<Float> getDistanceData() {
+    private List<Float> getDistanceData() {
 
         List<Float> returnList = new ArrayList<>();
         final int STEPS_IN_A_MILE = 2000;
@@ -168,5 +177,52 @@ public class Fitness_DetailsScreen extends FragmentActivity {
         return new BarData(set1);
     }
 
+    private void getAverageMinMaxTimes() {
+        List<UserData> allData = mUserOps.getAllData();
+
+        float totalDistance = 0f;
+        float totalTime = 0f;
+
+        float maxDistance = 0f;
+        float maxTime = 0f;
+
+        float minDistance = 0f;
+        float minTime = 0f;
+
+        for (int i = 0; i < allData.size() - 1; i++) {
+
+            //distance
+            totalDistance += allData.get(i).getmDistance_ran_in_a_week();
+            maxDistance = allData.get(i).getmDistance_ran_in_a_week();
+            if (allData.get(i + 1).getmDistance_ran_in_a_week() > maxDistance)
+                maxDistance = allData.get(i + 1).getmDistance_ran_in_a_week();
+
+            minDistance = allData.get(i).getmDistance_ran_in_a_week();
+            if (allData.get(i + 1).getmDistance_ran_in_a_week() < maxDistance)
+                minDistance = allData.get(i + 1).getmDistance_ran_in_a_week();
+
+            //time
+            totalTime += allData.get(i).getmTime_ran_in_a_week();
+            maxTime = allData.get(i).getmTime_ran_in_a_week();
+            if (allData.get(i + 1).getmTime_ran_in_a_week() > maxTime)
+                maxTime = allData.get(i + 1).getmTime_ran_in_a_week();
+
+            minTime = allData.get(i).getmTime_ran_in_a_week();
+            if (allData.get(i + 1).getmTime_ran_in_a_week() < minTime)
+                minTime = allData.get(i + 1).getmTime_ran_in_a_week();
+        }
+
+        float average = (totalTime / totalDistance);
+        String averageString = "Average: " + String.valueOf(average) + "\nmin/ mile";
+
+        float min = (minTime / minDistance);
+        String minString = "Min: " + String.valueOf(min) + " min/ mile";
+        float max = (maxTime / maxDistance);
+        String maxString = "Max: " + String.valueOf(max) + " min/ mile";
+
+        average_text_view.setText(averageString);
+        min_text_view.setText(minString);
+        max_text_view.setText(maxString);
+    }
 
 }
