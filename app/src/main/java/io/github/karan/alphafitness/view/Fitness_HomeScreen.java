@@ -193,7 +193,7 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
             sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_FASTEST);
             mHandler.postDelayed(locationChangedRunnable, 20);
 
-            mHandler.postDelayed(writeToDBRunnable, 60000);
+            mHandler.postDelayed(writeToDBRunnable, 300000);
 
         } else {
             String START_WORKOUT_STRING = "Start Workout";
@@ -249,7 +249,7 @@ public class Fitness_HomeScreen extends FragmentActivity implements OnMapReadyCa
 
             mUserOps.addUserData(mUserData);
 
-            mHandler.postDelayed(this, 60000);
+            mHandler.postDelayed(this, 300000);
         }
 
     };
